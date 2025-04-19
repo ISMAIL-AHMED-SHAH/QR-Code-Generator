@@ -10,35 +10,46 @@ st.set_page_config(page_title="🔳 QR Code Generator", layout="centered")
 
 st.markdown("""
 <style>
-/* Style for all buttons */
-button[kind="primary"] {
-    background-color: #ffaa00 !important;
-    color: black !important;
-    border: 2px solid #ffaa00 !important;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: bold;
+/* Glassmorphism Card Background */
+.stApp {
+    background: radial-gradient(circle at top left, #1f1f1f, #0f0f0f);
+    color: #FAFAFA;
 }
 
-/* Download button also matches the same */
-div.stDownloadButton > button {
-    background-color: #ffaa00 !important;
-    color: black !important;
-    border: 2px solid #ffaa00 !important;
-    border-radius: 6px;
-    font-weight: bold;
-    transition: 0.3s ease-in-out;
+/* --- Universal Button Styling --- */
+button[kind="primary"], .stDownloadButton > button {
+    background: rgba(255, 170, 0, 0.25) !important;
+    color: #FFAA00 !important;
+    border: 2px solid #FFAA00 !important;
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 0.6em 1.2em;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(255, 170, 0, 0.2);
 }
 
-div.stDownloadButton > button:hover {
-    background-color: #ffcc33 !important;
+/* --- Hover effect --- */
+button[kind="primary"]:hover, .stDownloadButton > button:hover {
+    background: #FFAA00 !important;
     color: black !important;
-    border-color: #ffcc33 !important;
+    border-color: #FFAA00 !important;
+    transform: scale(1.02);
+    box-shadow: 0 0 10px #ffaa00, 0 0 20px #ffaa00;
+}
+
+/* Emoji inside buttons spacing fix */
+.stButton > button > span, .stDownloadButton > button > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.image("image.png", width=100, use_container_width=True)
+
+st.image("logo.png", width=100, use_container_width=True)
 
 # --- Title and Instructions ---
 st.title("🔳 QR Code Generator")
@@ -66,6 +77,7 @@ if st.button("✨ Generate QR Code"):
         img.save(buffered, format="PNG")
         img_bytes = buffered.getvalue()
         b64_img = base64.b64encode(img_bytes).decode()
+        
         href = f'<a href="data:image/png;base64,{b64_img}" download="qr_code.png">📥 Download QR Code</a>'
         st.markdown(href, unsafe_allow_html=True)
 
